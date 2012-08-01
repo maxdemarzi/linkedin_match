@@ -36,5 +36,6 @@ On Heroku
     heroku addons:add neo4j
     heroku addons:add redistogo
     git push heroku master
+    heroku ps:scale workers=1
 
 See it running live at http://cbmatch.heroku.com
