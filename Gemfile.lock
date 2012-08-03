@@ -85,6 +85,7 @@ GEM
       rb-inotify (~> 0.8.8)
     method_source (0.8)
     mime-types (1.19)
+    msgpack (0.4.7)
     multi_json (1.3.6)
     multi_xml (0.5.1)
     neography (0.0.28)
@@ -188,6 +189,8 @@ GEM
       rack (>= 1.0.0)
     thor (0.15.4)
     tilt (1.3.3)
+    truthtable (0.0.1)
+      msgpack
     tzinfo (0.3.33)
     uglifier (1.2.6)
       execjs (>= 0.3.0)
@@ -230,4 +233,5 @@ DEPENDENCIES
   sprockets
   therubyracer
   thin
+  truthtable
   uglifier

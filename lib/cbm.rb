@@ -28,5 +28,7 @@ end
 
 
 require 'models/user'
+require 'models/criteria'
+require 'models/path'
 require 'jobs/import_linkedin_profile'
 require 'jobs/import_linkedin_connections'

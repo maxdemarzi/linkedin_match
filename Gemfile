@@ -38,7 +38,9 @@ gem 'rack-flash3'
 # Others
 gem 'foreman'
 gem 'oj'
+gem 'truthtable'
 gem 'airbrake'
+
 
 group :development, :test do
   gem 'awesome_print'
