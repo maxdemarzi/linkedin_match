@@ -20,11 +20,13 @@ Sidekiq.configure_client do |config|
 end
 
 LinkedIn.configure do |config|
-  config.token = ENV['CONSUMER_KEY']
-  config.secret = ENV['CONSUMER_SECRET']
-  config.default_profile_fields = ['id', 'first-name', 'last-name', 'educations', 'positions', 'skills']
+  config.token = (ENV['CONSUMER_KEY'] || "udmw68f7t3om")
+  config.secret = (ENV['CONSUMER_SECRET'] || "41OHptpc1oFOnI9n")
+  config.default_profile_fields = ['id', 'first-name', 'last-name', 'educations', 'positions', 'skills', 'location',
+                                   'picture-url', 'certifications']
 end
 
 
 require 'models/user'
 require 'jobs/import_linkedin_profile'
+require 'jobs/import_linkedin_connections'

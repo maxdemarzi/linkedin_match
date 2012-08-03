@@ -26,6 +26,21 @@ module CBM
       User.load(node)
     end
 
+    def self.create_from_linkedin(friend)
+      id        = friend["id"]
+      name      = (friend["first_name"] || "") + " " + (friend["last_name"] || "")
+      location  = friend["location"] ? friend["location"]["name"] : ""
+      image_url = (friend["picture_url"] || "")
+
+      node = @neo_server.create_unique_node("user_index", "uid", id,
+                                            {"name"      => name,
+                                             "location"  => location,
+                                             "image_url" => image_url,
+                                             "uid"       => id
+                                            })
+      User.load(node)
+    end
+
     def client
       @client ||= authorize_client
     end

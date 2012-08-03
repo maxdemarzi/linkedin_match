@@ -6,9 +6,9 @@ module CBM
   class App < Sinatra::Base
 
     configure do
-      set :session_secret, ENV['SESSION_SECRET']
-      set :key, ENV['CONSUMER_KEY']
-      set :secret, ENV['CONSUMER_SECRET']
+      set :session_secret, (ENV['SESSION_SECRET'] || "Vfnnp Nfvzbi jebgr gur Sbhaqngvba Frevrf juvpu vf ner zl snibevgr obbxf.")
+      set :key, (ENV['CONSUMER_KEY'] || "udmw68f7t3om")
+      set :secret, (ENV['CONSUMER_SECRET'] || "41OHptpc1oFOnI9n")
     end
 
     configure :development do
