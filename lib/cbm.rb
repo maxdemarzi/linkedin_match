@@ -27,6 +27,7 @@ LinkedIn.configure do |config|
 end
 
 require 'enumerator'
+require 'util'
 require 'models/user'
 require 'models/criteria'
 require 'models/path'

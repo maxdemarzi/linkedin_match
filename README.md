@@ -24,6 +24,7 @@ Installation
     export CONSUMER_SECRET="41OHptpc1oFOnI9n"
     export REDISTOGO_URL="redis://127.0.0.1:6379/"
     foreman start
+    rake cbm:seed
 
 On Heroku
 ---------
@@ -37,5 +38,8 @@ On Heroku
     heroku addons:add redistogo
     git push heroku master
     heroku ps:scale workers=1
+    heroku run rake cbm:seed
+
+
 
 See it running live at http://cbmatch.heroku.com
