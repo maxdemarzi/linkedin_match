@@ -29,7 +29,7 @@ module CBM
       to = nil
       in_path = nil
       commands = []
-      #1&2!3
+
       description.split(/(\d+)/).each do |c|
         next if c == ""
 
@@ -98,7 +98,24 @@ module CBM
       # 2&3 = in_path
       # 3&!4 = in_path and excluded
 
-      formula.split('|').each{ |t| t.strip! }
+      formula.split('|').collect{ |path|
+        order_path(path)
+      }
+    end
+
+    def self.order_path(path)
+      path.strip!
+      elements = Hash.new
+      ordered_path = ""
+      path.split(/(\d+)/).each_slice(2) do |slice|
+        slice[0] = "&" if slice[0].empty?
+        elements[slice[1]] = slice[0]
+      end
+      elements.sort{|a, b| a[0] <=> b[0]}.each do |e|
+        ordered_path << e[1] + e[0]
+      end
+      raise(ArgumentError, "first relationship cannot be a not!") if ordered_path[0..1] == "&!"
+      ordered_path[1..-1]
     end
 
   end

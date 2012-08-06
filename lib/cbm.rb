@@ -26,7 +26,7 @@ LinkedIn.configure do |config|
                                    'picture-url', 'certifications']
 end
 
-
+require 'enumerator'
 require 'models/user'
 require 'models/criteria'
 require 'models/path'
