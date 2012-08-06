@@ -5,10 +5,25 @@
     /[if lt IE 9]
       %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
 
+
     %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=UTF-8"}
     %meta{ :content => "Use your digital DNA to find the best job ever.", :name => "description" }
     %meta{ :content => "Max De Marzi", :name => "author" }
     %meta{ :content => "3 days", :name => "revisit-after" }
+
+    %link{ :href => "/bootstrap/css/bootstrap.css", :type => "text/css", :rel => "stylesheet" }
+    / add body padding styles
+    %link{ :href => "/css/styles.css", :type => "text/css", :rel => "stylesheet" }
+
+
+    %link{ :href => "/bootstrap/css/bootstrap-responsive.css", :type => "text/css", :rel => "stylesheet" }
+
+    %link{ rel: "apple-touch-icon", href: "/bootstrap/images/apple-touch-icon.png"}
+    %link{ rel: "shortcut icon", href: "/bootstrap/images/favicon.ico"}
+    %link{ rel: "apple-touch-icon", sizes: "72x72", href: "/bootstrap/images/apple-touch-icon-72x72.png"}
+    %link{ rel: "apple-touch-icon", sizes: "114x114", href: "/bootstrap/images/apple-touch-icon-114x114.png"}
+
+
     = css :app, :media => 'screen'
     = haml :'partials/mobile'
     = haml :'partials/analytics'
@@ -20,3 +35,17 @@
       = yield
     %footer
       = haml  :'partials/footer'
+
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/jquery.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-transition.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-alert.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-modal.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-dropdown.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-scrollspy.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-tab.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-tooltip.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-popover.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-button.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-collapse.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-carousel.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-typeahead.js"}
