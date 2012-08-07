@@ -12,12 +12,23 @@ module CBM
     end
 
     def self.create(description)
-      node = $neo_server.create_unique_node("path_index", "description", description, {:description => description})
+      node = $neo_server.create_unique_node("path_index", "description", description, {:description => description, :type => "path"})
 
-      commands = get_rels(description, node["self"].split('/').last.to_i)
-      $neo_server.batch *commands
+      node_id = node["self"].split('/').last.to_i
+      commands = get_rels(description, node_id)
+      batch_results = $neo_server.batch *commands
+
+      set_path(batch_results, node_id)
 
       Path.load(node)
+    end
+
+    def self.set_path(batch_results, node_id)
+      commands = []
+      batch_results.each do |b|
+        commands << [:set_relationship_property, b["body"]["self"].split("/").last, {:path => node_id}]
+      end
+      $neo_server.batch *commands
     end
 
     # Take description and create the actual paths (relationships between nodes)
@@ -40,8 +51,8 @@ module CBM
             in_path = (c == "&") ? "in_path" : "in_path_excluded"
           when to.nil?
             to = c.to_i
-            commands << [:create_unique_relationship, "in_path_index", "from_c_to",
-                         "#{from}_#{rel}_#{to}", in_path, from, to]
+            commands << [:create_unique_relationship, "in_path_index", "from_c_to_path_id",
+                         "#{from}_#{rel}_#{to}_#{node_id}", in_path, from, to]
             from = to
             to = nil
         end
@@ -68,6 +79,13 @@ module CBM
         commands << [:create_unique_relationship, "in_criteria_index", "path_criteria",
                      "#{p.description}-#{criteria.uid}",
                      "in_criteria", p.neo_id, criteria]
+      end
+      batch_results = $neo_server.batch *commands
+
+      commands = []
+      batch_results.each_with_index do |b, index|
+        path_id = path_nodes[index].neo_id.to_i
+        commands << [:set_relationship_property, b["body"]["self"].split("/").last, {:path => path_id}]
       end
       $neo_server.batch *commands
 

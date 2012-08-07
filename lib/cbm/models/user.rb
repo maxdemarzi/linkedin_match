@@ -134,5 +134,41 @@ module CBM
       results["data"]
     end
 
+    def matching
+      gremlin = "matches = [] as Set;
+                 values  = [] as Set;
+
+                 g.v(212281).out('has').
+                   gather{ for(item in it){
+                             values.add(item.getId());
+                           };
+                  return it }.iterate();
+
+                g.v(212281).out('has_location').as('next').
+                  outE('in_path','in_path_excluded','in_criteria').
+                  sideEffect{ if(it.label().next() == 'in_path')
+                                {excluded = false}
+                              else
+                                {excluded = true};
+
+                              path = it.getProperty('path');
+                  }.
+                  filter{ path == it.getProperty('path')}.
+                  filter{ next_node = it.inV().next();
+                        is_criteria = next_node.getProperty('type') == 'criteria';
+                        if(is_criteria){
+                        matches.add(next_node.getId());
+                        };
+                        !is_criteria;}.
+                  inV().
+                  loop('next'){it.getLoops() < 50}.
+                  iterate();
+
+                 values;
+                "
+
+      $neo_server.execute_script(gremlin, {:user => self.neo_id})
+    end
+
   end
 end

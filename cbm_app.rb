@@ -143,9 +143,8 @@ module CBM
     end
 
     post '/job/create' do
-      uid = UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, "cb_match.heroku.com").to_s
-      CBM::Criteria.create(uid, params[:name], params[:formula])
-      reditect to('/jobs')
+      CBM::Criteria.create(params[:name], params[:formula])
+      redirect to('/jobs')
     end
 
     # Typeahead

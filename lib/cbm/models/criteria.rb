@@ -26,15 +26,16 @@ module CBM
 
     # Create the Criteria
     # Expects:
-    #   - uid
     #   - name
     #   - formula (using node_ids)
     #
-    def self.create(uid, name, formula)
+    def self.create(name, formula)
+      uid = UUIDTools::UUID.random_create.to_s
       node = $neo_server.create_unique_node("criteria_index", "uid", uid,
                                             {:uid      => uid,
                                              :name     => name,
-                                             :formula  => formula })
+                                             :formula  => formula,
+                                             :type     => "criteria"})
       criteria_node = Criteria.load(node)
       Path.create_from_criteria(criteria_node)
       criteria_node
