@@ -8,6 +8,10 @@ module CBM
         user = CBM::User.find_by_uid(uid)
         friend = User.create_from_linkedin(connection)
 
+        if friend.location
+          friend.set_location(friend.location)
+        end
+
         # Make them friends
         commands = []
         commands << [:create_unique_relationship, "connected_index", "ids",  "#{user.uid}-#{friend.uid}", "is_connected", user, friend]

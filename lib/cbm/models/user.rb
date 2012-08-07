@@ -50,6 +50,21 @@ module CBM
       client
     end
 
+    def set_location(location)
+      location.gsub!('Greater','')
+      location.gsub!('Area','')
+      location.strip!
+
+      geo = Geocoder.search(location).first
+      if geo
+        city_node = CBM::Location.cities(geo.city).first
+        if city_node
+          $neo_server.create_unique_relationship("has_location_index", "user_location", "#{self.neo_id}-#{city_node[0]}", "has_location", self.neo_id, city_node[0])
+        end
+      end
+
+    end
+
     def values
       cypher = "START me = node(#{self.neo_id})
                 MATCH me -[:has]-> values
