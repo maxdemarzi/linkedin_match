@@ -40,6 +40,7 @@ gem 'foreman'
 gem 'oj'
 gem 'truthtable'
 gem 'airbrake'
+gem 'geocoder'
 
 
 group :development, :test do

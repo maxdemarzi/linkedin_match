@@ -19,6 +19,12 @@ Sidekiq.configure_client do |config|
   end
 end
 
+Geocoder.configure do |config|
+  config.lookup = :yahoo
+  config.timeout = 30
+  config.cache = Redis.new
+end
+
 LinkedIn.configure do |config|
   config.token = (ENV['CONSUMER_KEY'] || "udmw68f7t3om")
   config.secret = (ENV['CONSUMER_SECRET'] || "41OHptpc1oFOnI9n")

@@ -8,7 +8,9 @@ module CBM
         user = CBM::User.find_by_uid(uid)
 
         # I'll want to grab certifications, education, position, etc.
-        profile = user.client.profile(:fields => %w(skills))
+        profile = user.client.profile
+
+        @neo.set_node_properties(user, {"location" => profile.location.name})
 
         # Import user skills
         commands = []
