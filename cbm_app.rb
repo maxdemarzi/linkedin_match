@@ -73,7 +73,7 @@ module CBM
       if current_user.nil?
         haml :index, :layout => :layout
       else
-        redirect to('/matches')
+        redirect to("/user/#{current_user.uid}/matches")
       end
     end
 
