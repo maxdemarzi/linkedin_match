@@ -1,0 +1,10 @@
+.container
+  .content
+    .row
+      %h2 Locations
+      %table{:class => "table table-striped"}
+        - @user.locations.each do |location|
+          %tr
+            %td
+              %a{:href => "/location/#{location[0]}"}
+                =location[1]

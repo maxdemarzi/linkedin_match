@@ -1,6 +1,19 @@
 module CBM
   class Criteria < Neography::Node
 
+    def self.all
+      cypher = "START me = node:criteria_index('name:*')
+                RETURN me.uid, me.name, me.formula"
+      results = $neo_server.execute_query(cypher)
+
+      if results
+        results["data"]
+      else
+        []
+      end
+
+    end
+
     def self.find_by_uid(uid)
       criteria = $neo_server.get_node_index("criteria_index", "uid", uid)
 

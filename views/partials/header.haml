@@ -10,19 +10,32 @@
         %ul.nav
           %li
             %a{:href => '/'}Home
-          %li
-            %a{:href => '/matches'}Matches
+          -unless current_user.nil?
+            %li
+              %a{:href => "/user/#{current_user.uid}/matches"}Matches
+            %li
+              %a{:href => "/user/#{current_user.uid}/skills"}Skills
+            %li
+              %a{:href => "/user/#{current_user.uid}/connections"}Connections
           %li
             %a{:href => '/jobs'}Jobs
           %li
             %a{:href => '/about'}About
         %p.navbar-text.pull-right
           -unless current_user.nil?
-            %a{:href => "/user/" << current_user.uid.to_s }
-              #{current_user.name}
-            |
-            %a{:href => "/logout" } Logout
-
+            .btn-group.pull-right
+              %a.btn.dropdown-toggle{:'data-togle' => "dropdown", :href => "#"}
+                %i.icon-user
+                ="#{current_user.name}"
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  %a{:href => "/user/#{current_user.uid}" } Profile
+                %li
+                  %a{:href => "/user/#{current_user.uid}/locations"} Locations
+                %li.divider
+                %li
+                  %a{:href => "/logout" } Logout
           -else
             %a{:href => "/auth/linkedin"}
               %img{:src => "/images/signin_with_linkedin.png"}

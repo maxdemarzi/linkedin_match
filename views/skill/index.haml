@@ -2,7 +2,7 @@
   .content
     .row
       %h2 Skills and Expertise
-      %table
+      %table{:class => "table table-striped"}
         - @user.skills.each do |skill|
           %tr
             %td

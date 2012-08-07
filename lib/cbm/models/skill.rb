@@ -2,7 +2,7 @@ module CBM
   class Skill < Neography::Node
 
     def self.find_by_name(name)
-      skill = $neo_server.get_node_index("skill_index", "uid", name)
+      skill = $neo_server.get_node_index("skill_index", "name", name)
 
       if skill
         self.new(skill.first)

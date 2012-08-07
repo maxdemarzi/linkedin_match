@@ -1,0 +1,14 @@
+.container
+  .content
+    .row
+      .span12
+        %form{:action => '/location/create', :method => "post"}
+          %h3 Location
+          %p Country:
+          %input.form-input{ :name => "name", :type => "text", :size => "30",
+           :"data-provide" => "typeahead", :"data-items" => 5,
+           :"data-source" => "/typeahead/countries/", :id => "countries" }
+          %input.form-input{ :type => "hidden", :name => "country_id", :id => "country_id"}
+          %br
+            %input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
+            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}

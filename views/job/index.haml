@@ -1,0 +1,17 @@
+.container
+  .row
+    %table
+      %tr
+        %th Job
+        %th Criteria
+        %th Actions
+
+      - @jobs.each do |job|
+        %tr
+          %td= job.name
+          %td= job.formula
+          %td= "Actions"
+
+    %br
+
+new job

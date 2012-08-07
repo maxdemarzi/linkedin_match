@@ -12,7 +12,9 @@ module CBM
     end
 
     configure :development do
+      require 'sinatra/reloader'
       register Sinatra::Reloader
+      also_reload '**/*.rb'
     end
 
     register Sinatra::AssetPack
@@ -45,7 +47,9 @@ module CBM
 
       css :app, '/css/app.css', [
           '/css/reset.css',
-          '/css/style.css'
+          '/bootstrap/css/bootstrap.css',
+          '/bootstrap/css/bootstrap-responsive.css',
+          '/css/style.css',
       ]
 
       css :ie, '/css/ie.css', [
@@ -74,8 +78,9 @@ module CBM
     end
 
     # View Matches
-    get '/matches/?' do
+    get '/user/:id/matches' do
       private_page!
+      @user = user(params[:id])
       haml :matches
     end
 
@@ -95,15 +100,39 @@ module CBM
       haml :'skill/index'
     end
 
+    get '/user/:id/locations' do
+      @user = user(params[:id])
+      haml :'location/index'
+    end
+
+    get '/user/:id/locations/new' do
+      @user = user(params[:id])
+      haml :'location/new'
+    end
+
+    post '/user/:id/locations/create' do
+      @user = user(params[:id])
+      haml :'location/index'
+    end
+
+    # Skills
     get '/skill/:id' do
       @skill = Skill.load(params[:id])
       haml :'skill/show'
     end
 
     # View Jobs
-    get '/jobs/?' do
+    get '/jobs' do
       private_page!
-      haml :jobs
+      @jobs = Criteria.all
+      haml :'job/index'
+    end
+
+    # Typeahead
+    get '/typeahead/countries/?' do
+      Location.countries(params[:q]).collect do |country|
+        {:id => country[0], :name => country[1]}
+      end.to_json
     end
 
     # Authentication

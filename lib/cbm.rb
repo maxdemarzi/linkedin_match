@@ -33,6 +33,7 @@ require 'util'
 
 require 'models/user'
 require 'models/criteria'
+require 'models/location'
 require 'models/path'
 require 'models/skill'
 

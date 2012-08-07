@@ -100,5 +100,13 @@ module CBM
       results["data"][0][0]
     end
 
+    def locations
+      cypher = "START me = node(#{self.neo_id})
+                MATCH me -[:has_location]-> location
+                RETURN ID(location), location.name"
+      results = $neo_server.execute_query(cypher)
+      results["data"]
+    end
+
   end
 end
