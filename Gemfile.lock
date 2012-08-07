@@ -196,6 +196,7 @@ GEM
     uglifier (1.2.6)
       execjs (>= 0.3.0)
       multi_json (~> 1.3)
+    uuidtools (2.1.3)
 
 PLATFORMS
   ruby
@@ -237,3 +238,4 @@ DEPENDENCIES
   thin
   truthtable
   uglifier
+  uuidtools

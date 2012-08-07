@@ -2,7 +2,7 @@ module CBM
   class Criteria < Neography::Node
 
     def self.all
-      cypher = "START me = node:criteria_index('name:*')
+      cypher = "START me = node:criteria_index('uid:*')
                 RETURN me.uid, me.name, me.formula"
       results = $neo_server.execute_query(cypher)
 
@@ -30,11 +30,11 @@ module CBM
     #   - name
     #   - formula (using node_ids)
     #
-    def self.create(criteria)
-      node = $neo_server.create_unique_node("criteria_index", "uid", criteria["uid"],
-                                            {:uid      => criteria["uid"],
-                                             :name     => criteria["name"],
-                                             :formula  => criteria["formula"]})
+    def self.create(uid, name, formula)
+      node = $neo_server.create_unique_node("criteria_index", "uid", uid,
+                                            {:uid      => uid,
+                                             :name     => name,
+                                             :formula  => formula })
       criteria_node = Criteria.load(node)
       Path.create_from_criteria(criteria_node)
       criteria_node

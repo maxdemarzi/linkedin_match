@@ -41,6 +41,7 @@ gem 'oj'
 gem 'truthtable'
 gem 'airbrake'
 gem 'geocoder'
+gem 'uuidtools'
 
 
 group :development, :test do

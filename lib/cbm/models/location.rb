@@ -1,6 +1,20 @@
 module CBM
   class Location < Neography::Node
 
+    def self.available
+      cypher = "START users = node:user_index('uid:*')
+                MATCH users -[:has_location]-> location
+                RETURN DISTINCT ID(location), location.name, COUNT(location) AS user_count
+                ORDER BY user_count DESC"
+      results = $neo_server.execute_query(cypher)
+
+      if results
+        results["data"]
+      else
+        []
+      end
+    end
+
     def self.cities(name="*")
       cypher = "START me = node:city_index('name:*#{name}*')
                 WHERE me.country_id = 213

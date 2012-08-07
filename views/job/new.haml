@@ -1,7 +1,7 @@
 .container
   .content
     .row
-      .span12
+      .span6
         %h3 Add Job
         %form{:action => "/job/create", :method => "post"}
           %label Name:
@@ -13,3 +13,19 @@
           %br
             %input.btn.btn-inverse{ :name => "submit", :type => "submit", :value => "Create"}
             %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+      .span3
+        %h3 Available Locations
+        %table{:class => "table table-striped"}
+          - @locations.each do |location|
+            %tr
+              %td
+                %a{:href => "/location/#{location[0]}"}
+                  ="#{location[0]} : #{location[1]} - #{location[2]} Users"
+      .span3
+        %h3 Available Skills
+        %table{:class => "table table-striped"}
+          - @skills.each do |skill|
+            %tr
+              %td
+                %a{:href => "/location/#{skill[0]}"}
+                  ="#{skill[0]} : #{skill[1]} - #{skill[2]} Users"

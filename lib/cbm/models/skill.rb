@@ -11,6 +11,20 @@ module CBM
       end
     end
 
+    def self.available
+      cypher = "START users = node:user_index('uid:*')
+                MATCH users -[:has]-> skill
+                RETURN DISTINCT ID(skill), skill.name, COUNT(skill) AS user_count
+                ORDER BY user_count DESC"
+      results = $neo_server.execute_query(cypher)
+
+      if results
+        results["data"]
+      else
+        []
+      end
+    end
+
     def users
       cypher = "START me = node(#{self.neo_id})
                 MATCH me <-[:has]- users

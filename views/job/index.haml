@@ -4,7 +4,7 @@
       %button.btn.btn-inverse New Job
     %br
     %br
-    %table
+    %table{:class => "table table-striped"}
       %tr
         %th Job
         %th Criteria
@@ -12,8 +12,8 @@
 
       - @jobs.each do |job|
         %tr
-          %td= job.name
-          %td= job.formula
+          %td= job[1]
+          %td= job[2]
           %td= "Actions"
 
     %br

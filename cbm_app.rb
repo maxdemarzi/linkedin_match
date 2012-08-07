@@ -137,9 +137,16 @@ module CBM
 
     get '/job/new' do
       @jobs = Criteria.all
+      @locations = Location.available
+      @skills = Skill.available
       haml :'job/new'
     end
 
+    post '/job/create' do
+      uid = UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, "cb_match.heroku.com").to_s
+      CBM::Criteria.create(uid, params[:name], params[:formula])
+      reditect to('/jobs')
+    end
 
     # Typeahead
     get '/typeahead/cities/?' do
