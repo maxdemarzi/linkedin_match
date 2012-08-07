@@ -2,6 +2,10 @@
   .content
     .row
       %h2 Locations
+      %a{:href => "/user/#{@user.uid}/location/new"}
+        %button.btn.btn-inverse Add Location
+      %br
+      %br
       %table{:class => "table table-striped"}
         - @user.locations.each do |location|
           %tr
