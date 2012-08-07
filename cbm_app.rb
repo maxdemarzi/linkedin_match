@@ -105,14 +105,22 @@ module CBM
       haml :'location/index'
     end
 
-    get '/user/:id/locations/new' do
+    get '/user/:id/location/new' do
       @user = user(params[:id])
       haml :'location/new'
     end
 
-    post '/user/:id/locations/create' do
+    post '/user/:id/location/create' do
       @user = user(params[:id])
-      haml :'location/index'
+      location = (params[:city_id] || params[:region_id] || params[:country_id])
+      $neo_server.create_unique_relationship("has_location_index", "user_location", "#{@user.neo_id}-#{location}", "has_location", @user, location)
+      redirect to("/user/#{params[:id]}/locations")
+    end
+
+    # Location
+    get '/location/:id' do
+      @location = CBM::Location.load(params[:id])
+      haml :'location/show'
     end
 
     # Skills
@@ -121,12 +129,17 @@ module CBM
       haml :'skill/show'
     end
 
-    # View Jobs
+    # Jobs
     get '/jobs' do
-      private_page!
       @jobs = Criteria.all
       haml :'job/index'
     end
+
+    get '/job/new' do
+      @jobs = Criteria.all
+      haml :'job/new'
+    end
+
 
     # Typeahead
     get '/typeahead/cities/?' do

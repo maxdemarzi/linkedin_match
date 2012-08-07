@@ -1,0 +1,15 @@
+.container
+  .content
+    .row
+      .span12
+        %h3 Add Job
+        %form{:action => "/job/create", :method => "post"}
+          %label Name:
+          %input.form-input{ :name => "name", :type => "text", :size => "30", :id => "name", :placeholder => "Name of Job..."}
+          %label Formula:
+          %textarea.input-xlarge{ :name => "formula", :id => "formula",
+                             :rows => "3", :placeholder => "Boolean expression of Job, ie. (1 OR 2) AND 3" }
+          %br
+          %br
+            %input.btn.btn-inverse{ :name => "submit", :type => "submit", :value => "Create"}
+            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}

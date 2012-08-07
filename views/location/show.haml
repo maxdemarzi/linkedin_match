@@ -1,0 +1,14 @@
+.container
+  .content
+    .row
+      %h2="Users for #{@location.name}"
+    .row
+      %table{:class => "table table-striped"}
+        %tbody
+          - @location.users.each do |user|
+            %tr
+              %td
+                %a{:href => "/user/#{user[0]}"}
+                  %img{:src => (user[2].blank? ? "/images/icon_no_photo_80x80.png" : user[2]) }
+                  =user[1]
+

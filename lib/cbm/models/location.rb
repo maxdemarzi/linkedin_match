@@ -41,6 +41,15 @@ module CBM
       end
     end
 
+    def users
+      cypher = "START me = node(#{self.neo_id})
+                MATCH me <-[:has_location]- users
+                RETURN users.uid, users.name, users.image_url"
+      results = $neo_server.execute_query(cypher)
+      results["data"]
+
+    end
+
 
   end
 end
