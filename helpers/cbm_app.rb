@@ -1,8 +1,18 @@
+require './lib/cbm/models/user'
+
 class CBM::App
   module Helpers
 
     def current_user
-      @current_user ||= User.find_by_uid(session[:uid]) if session[:uid]
+      @current_user ||= CBM::User.find_by_uid(session[:uid]) if session[:uid]
+    end
+
+    def user(id)
+      if(id == session[:uid])
+        current_user
+      else
+        CBM::User.find_by_uid(id)
+      end
     end
 
     def private_page!

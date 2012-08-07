@@ -1,0 +1,11 @@
+.container
+  .content
+    .row
+      %h2 Skills and Expertise
+      %table
+        - @user.skills.each do |skill|
+          %tr
+            %td
+              %a{:href => "/skill/#{skill[0]}"}
+                =skill[1]
+

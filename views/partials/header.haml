@@ -18,8 +18,8 @@
             %a{:href => '/about'}About
         %p.navbar-text.pull-right
           -unless current_user.nil?
-            %a{:href => "/user/" << current_user.nickname.to_s << "/dashboard"} #{current_user.nickname}
-            Dashboard
+            %a{:href => "/user/" << current_user.uid.to_s }
+              #{current_user.name}
             |
             %a{:href => "/logout" } Logout
 

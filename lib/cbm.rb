@@ -26,10 +26,15 @@ LinkedIn.configure do |config|
                                    'picture-url', 'certifications']
 end
 
+$neo_server = Neography::Rest.new
+
 require 'enumerator'
 require 'util'
+
 require 'models/user'
 require 'models/criteria'
 require 'models/path'
+require 'models/skill'
+
 require 'jobs/import_linkedin_profile'
 require 'jobs/import_linkedin_connections'

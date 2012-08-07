@@ -1,11 +1,10 @@
 module CBM
   class Util
-    @neo_server = Neography::Rest.new
 
     # Import values, 50 at a time.
     def self.import(model, properties, values)
       puts "Importing #{model}"
-      @neo_server.create_node_index("#{model}_index", "fulltext", "lucene")
+      $neo_server.create_node_index("#{model}_index", "fulltext", "lucene")
 
       values.each_slice(50) do |slice|
         commands = []
@@ -27,7 +26,7 @@ module CBM
           commands << [:add_node_to_index, "#{model}_index", "name", node_properties[:name], "{#{index}}"]
         end
 
-        @neo_server.batch *commands
+        $neo_server.batch *commands
       end
 
 

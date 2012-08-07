@@ -75,23 +75,44 @@ module CBM
 
     # View Matches
     get '/matches/?' do
+      private_page!
       haml :matches
     end
 
-    # View profile
-    get '/profile/?' do
-      private_page!
+    # Users
+    get '/user/:id' do
+      @user = user(params[:id])
+      haml :'user/show'
+    end
 
-      haml :profile
+    get '/user/:id/connections' do
+      @user = user(params[:id])
+      haml :'user/index'
+    end
+
+    get '/user/:id/skills' do
+      @user = user(params[:id])
+      haml :'skill/index'
+    end
+
+    get '/skill/:id' do
+      @skill = Skill.load(params[:id])
+      haml :'skill/show'
+    end
+
+    # View Jobs
+    get '/jobs/?' do
+      private_page!
+      haml :jobs
     end
 
     # Authentication
     ['get', 'post'].each do |method|
       send(method, "/auth/:provider/callback") do
         user = CBM::User.create_with_omniauth(env['omniauth.auth'])
-        session[:user_id] = user.id.to_s
+        session[:uid] = user.uid.to_s
 
-        redirect to(session[:redirect_url] || '/profile')
+        redirect to(session[:redirect_url] || "/user/#{session[:uid]}")
         session[:redirect_url] = nil
       end
     end
@@ -116,19 +137,19 @@ module CBM
     end
 
     get '/about/?' do
-      haml :about
+      haml :'static/about'
     end
 
     get '/contact/?' do
-      haml :contact
+      haml :'static/contact'
     end
 
     get '/terms' do
-      haml :terms
+      haml :'static/terms'
     end
 
     get '/privacy' do
-      haml :privacy
+      haml :'static/privacy'
     end
 
   end

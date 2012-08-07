@@ -1,0 +1,15 @@
+.container
+  .content
+    .row
+      .span9
+        .well
+          %img{:src => @user.image_url}
+          %h1=@user.name
+          %h2=@user.location
+          %h2
+            %a{:href => "/user/#{@user.uid}/connections"}
+              = "#{@user.connections_count} Connections"
+          %h2
+            %a{:href => "/user/#{@user.uid}/skills"}
+              = "#{@user.values_count} Skills and Expertise"
+      .span3

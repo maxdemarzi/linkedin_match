@@ -70,12 +70,12 @@ module CBM
       'CBM API'
     end
 
-    get '/values' do
-      cypher = "START me = node(#{params[:id]})
-                MATCH me -[:has]-> values
-                RETURN ID(values), values.name"
-      results = CBM::Api.settings.neo.execute_query(cypher)
-      results["data"].to_json
+    get '/user/:id/values' do
+      CBM::User.find_by_uid(params[:id]).values.to_json
+    end
+
+    get '/friends/:id' do
+      CBM::User.find_by_uid(params[:id]).connections.to_json
     end
 
     get '/wipe' do

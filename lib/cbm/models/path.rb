@@ -1,9 +1,8 @@
 module CBM
   class Path < Neography::Node
-    @neo_server = Neography::Rest.new
 
     def self.find_by_description(description)
-      path = @neo_server.get_node_index("path_index", "description", description)
+      path = $neo_server.get_node_index("path_index", "description", description)
 
       if path && path.first["data"]["description"]
         self.new(path.first)
@@ -13,10 +12,10 @@ module CBM
     end
 
     def self.create(description)
-      node = @neo_server.create_unique_node("path_index", "description", description, {:description => description})
+      node = $neo_server.create_unique_node("path_index", "description", description, {:description => description})
 
       commands = get_rels(description, node.neo_id)
-      @neo_server.batch *commands
+      $neo_server.batch *commands
 
       Path.load(node)
     end
@@ -70,7 +69,7 @@ module CBM
                      "#{p.description}-#{criteria.uid}",
                      "in_criteria", p.neo_id, criteria]
       end
-      @neo_server.batch *commands
+      $neo_server.batch *commands
 
     end
 

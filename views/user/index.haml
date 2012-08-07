@@ -1,0 +1,14 @@
+.container
+  .content
+    .row
+      %h2="Connections for #{@user.name}"
+    .row
+      %table{:class => "table table-striped"}
+        %tbody
+          - @user.connections.each do |connection|
+            %tr
+              %td
+                %a{:href => "/user/#{connection[0]}"}
+                  %img{:src => (connection[2].blank? ? "/images/icon_no_photo_80x80.png" : connection[2]) }
+                  =connection[1]
+
