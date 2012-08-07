@@ -22,7 +22,7 @@ end
 Geocoder.configure do |config|
   config.lookup = :yahoo
   config.timeout = 30
-  config.cache = Redis.new
+  config.cache = Redis.connect(:url => ENV['REDISTOGO_URL'])
 end
 
 LinkedIn.configure do |config|
