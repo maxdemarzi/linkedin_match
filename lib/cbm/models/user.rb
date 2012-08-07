@@ -82,7 +82,7 @@ module CBM
                 RETURN COUNT(values)"
       results = $neo_server.execute_query(cypher)
 
-      if results["data"]
+      if results["data"][0]
         results["data"][0][0]
       else
         0
@@ -103,7 +103,7 @@ module CBM
                 RETURN COUNT(connections)"
       results = $neo_server.execute_query(cypher)
 
-      if results["data"]
+      if results["data"][0]
         results["data"][0][0]
       else
         0
