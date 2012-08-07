@@ -81,7 +81,12 @@ module CBM
                 MATCH me -[:has]-> values
                 RETURN COUNT(values)"
       results = $neo_server.execute_query(cypher)
-      results["data"][0][0]
+
+      if results
+        results["data"][0][0]
+      else
+        0
+      end
     end
 
     def connections
@@ -97,7 +102,13 @@ module CBM
                 MATCH me -[:is_connected]-> connections
                 RETURN COUNT(connections)"
       results = $neo_server.execute_query(cypher)
-      results["data"][0][0]
+
+      if results
+        results["data"][0][0]
+      else
+        0
+      end
+
     end
 
     def locations
