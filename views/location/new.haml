@@ -2,13 +2,31 @@
   .content
     .row
       .span12
+        %h3 Add Location
         %form{:action => '/location/create', :method => "post"}
-          %h3 Location
+          %p City:
+          %input.form-input{ :name => "name", :type => "text", :size => "30",
+           :"data-provide" => "typeahead", :"data-items" => 5,
+           :"data-source" => "/typeahead/cities/", :id => "cities" }
+          %input.form-input{ :type => "hidden", :name => "city_id", :id => "city_id"}
+          %br
+            %input.btn{ :name => "submit", :type => "submit", :value => "Add"}
+            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+        %form{:action => '/location/create', :method => "post"}
+          %p Region:
+          %input.form-input{ :name => "name", :type => "text", :size => "30",
+           :"data-provide" => "typeahead", :"data-items" => 5,
+           :"data-source" => "/typeahead/regions/", :id => "regions" }
+          %input.form-input{ :type => "hidden", :name => "region_id", :id => "region_id"}
+          %br
+            %input.btn{ :name => "submit", :type => "submit", :value => "Add"}
+            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+        %form{:action => '/location/create', :method => "post"}
           %p Country:
           %input.form-input{ :name => "name", :type => "text", :size => "30",
            :"data-provide" => "typeahead", :"data-items" => 5,
            :"data-source" => "/typeahead/countries/", :id => "countries" }
           %input.form-input{ :type => "hidden", :name => "country_id", :id => "country_id"}
           %br
-            %input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
+            %input.btn{ :name => "submit", :type => "submit", :value => "Add"}
             %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}

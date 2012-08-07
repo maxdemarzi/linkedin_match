@@ -129,6 +129,18 @@ module CBM
     end
 
     # Typeahead
+    get '/typeahead/cities/?' do
+      Location.cities(params[:q]).collect do |city|
+        {:id => city[0], :name => city[1]}
+      end.to_json
+    end
+
+    get '/typeahead/regions/?' do
+      Location.regions(params[:q]).collect do |region|
+        {:id => region[0], :name => region[1]}
+      end.to_json
+    end
+
     get '/typeahead/countries/?' do
       Location.countries(params[:q]).collect do |country|
         {:id => country[0], :name => country[1]}
