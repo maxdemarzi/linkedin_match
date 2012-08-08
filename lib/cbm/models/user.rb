@@ -78,7 +78,11 @@ module CBM
                 MATCH me -[:has]-> values
                 RETURN COUNT(values)"
       results = $neo_server.execute_query(cypher)
-      results["data"][0][0]
+      if results["data"][0]
+        results["data"][0][0]
+      else
+        0
+      end
     end
 
     def skills
