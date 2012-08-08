@@ -11,6 +11,18 @@ module CBM
       else
         []
       end
+    end
+
+    def self.get_by_id(ids)
+      cypher = "START me = node({ids})
+                RETURN me.uid, me.name, me.formula"
+      results = $neo_server.execute_query(cypher, :ids =>ids)
+
+      if results
+        results["data"]
+      else
+        []
+      end
 
     end
 

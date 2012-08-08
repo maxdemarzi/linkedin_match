@@ -2,4 +2,14 @@
   .content
     .row
       %h2="Matching Jobs for #{@user.name}"
-      %p=@user.matching
+      %table{:class => "table table-striped"}
+        %tr
+          %th Job
+          %th Criteria
+          %th Actions
+
+        - @jobs.each do |job|
+          %tr
+            %td= job[1]
+            %td= job[2]
+            %td= "Actions"

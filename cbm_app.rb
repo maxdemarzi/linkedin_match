@@ -81,6 +81,7 @@ module CBM
     get '/user/:id/matches' do
       private_page!
       @user = user(params[:id])
+      @jobs = CBM::Criteria.get_by_id(@user.matching)
       haml :matches
     end
 

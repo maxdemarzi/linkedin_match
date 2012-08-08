@@ -137,6 +137,9 @@ module CBM
     def matching
       gremlin = "matches = [] as Set;
                  values  = [] as Set;
+                 params  = [] as Set;
+                 trace   = [:].withDefault{ key -> [] as Set };
+                 output  = [:].withDefault{ key -> [] as Set };
 
                  g.v(212281).out('has').
                    gather{ for(item in it){
@@ -146,13 +149,7 @@ module CBM
 
                 g.v(212281).out('has_location').as('next').
                   outE('in_path','in_path_excluded','in_criteria').
-                  sideEffect{ if(it.label().next() == 'in_path')
-                                {excluded = false}
-                              else
-                                {excluded = true};
-
-                              path = it.getProperty('path');
-                  }.
+                  sideEffect{ path = it.getProperty('path'); }.
                   filter{ path == it.getProperty('path')}.
                   filter{ next_node = it.inV().next();
                         is_criteria = next_node.getProperty('type') == 'criteria';
@@ -160,11 +157,25 @@ module CBM
                         matches.add(next_node.getId());
                         };
                         !is_criteria;}.
+                  filter{ if(it.label().next() == 'in_path')
+                            {excluded = false;}
+                          else
+                            {excluded = true;};
+
+                          params_contained = false;
+                          next_node = it.inV().next();
+                          contained = values.contains(next_node.getId());
+                          pass = excluded ? !contained : (contained || !params_contained);
+
+                          if(!pass){ trace.remove(path); };
+
+                          pass;
+                  }.
                   inV().
                   loop('next'){it.getLoops() < 50}.
                   iterate();
 
-                 values;
+                  matches;
                 "
 
       $neo_server.execute_script(gremlin, {:user => self.neo_id})
