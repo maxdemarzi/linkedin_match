@@ -135,7 +135,7 @@ module CBM
     end
 
     def matching
-      gremlin = "matches = [] as Set;
+      gremlin = "matches = [:].withDefault{ key -> [] as Set };
                  values  = [] as Set;
                  params  = [] as Set;
                  trace   = [:].withDefault{ key -> [] as Set };
@@ -157,7 +157,7 @@ module CBM
                   filter{ next_node = it.inV().next();
                         is_criteria = next_node.getProperty('type') == 'criteria';
                         if(is_criteria){
-                        matches.add(next_node.getId());
+                        matches[path].add(next_node.getId());
                         };
                         !is_criteria;}.
                   filter{ if(it.label().next() == 'in_path')
@@ -192,6 +192,16 @@ module CBM
                   iterate();
 
                   matches;
+
+                  for(match in matches) {
+                    for(criteria in match.getValue()) {
+                      if(output[criteria].size() == 0 || output[criteria].size() < trace[match.getKey()].size() ) {
+                        output[criteria] = trace[match.getKey()]
+                      };
+                    };
+                  };
+
+                  output;
                 "
 
       $neo_server.execute_script(gremlin, {:user => self.neo_id})

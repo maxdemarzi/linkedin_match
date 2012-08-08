@@ -7,9 +7,8 @@
           %th Job
           %th Missing
 
-
-        - @jobs.each do |job|
+        - @jobs.each_with_index do |job, index|
           %tr
             %td= job[1]
-            %td= ""
+            %td= @matches.to_a[index][1].collect{|skill| @skills[skill]}.compact.join(',')
 

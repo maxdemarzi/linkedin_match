@@ -1,6 +1,19 @@
 module CBM
   class Skill < Neography::Node
 
+    def self.get_by_id(ids)
+      cypher = "START me = node({ids})
+                WHERE has(me.name)
+                RETURN ID(me), me.name"
+      results = $neo_server.execute_query(cypher, :ids =>ids)
+
+      if results
+        results["data"]
+      else
+        []
+      end
+    end
+
     def self.find_by_name(name)
       skill = $neo_server.get_node_index("skill_index", "name", name)
 

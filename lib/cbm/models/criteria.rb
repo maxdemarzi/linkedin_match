@@ -23,7 +23,6 @@ module CBM
       else
         []
       end
-
     end
 
     def self.find_by_uid(uid)
