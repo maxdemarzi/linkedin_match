@@ -11,4 +11,7 @@
                 %a{:href => "/user/#{connection[0]}"}
                   %img{:src => (connection[2].blank? ? "/images/icon_no_photo_80x80.png" : connection[2]) }
                   =connection[1]
+              %td
+                %a{:href => "/user/#{connection[0]}/matches"}
+                  Matching Jobs
 

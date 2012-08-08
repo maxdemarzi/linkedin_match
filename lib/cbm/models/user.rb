@@ -141,7 +141,7 @@ module CBM
                  trace   = [:].withDefault{ key -> [] as Set };
                  output  = [:].withDefault{ key -> [] as Set };
 
-                 g.v(212281).out('has').
+                 g.v((user)).out('has').
                    gather{ for(item in it){
                              values.add(item.getId());
                              if(item.in('belongs_to').hasNext()) {
@@ -150,7 +150,7 @@ module CBM
                            };
                   return it }.iterate();
 
-                g.v(212281).out('has_location').as('next').
+                g.v((user)).out('has_location').as('next').
                   outE('in_path','in_path_excluded','in_criteria').
                   sideEffect{ path = it.getProperty('path'); }.
                   filter{ path == it.getProperty('path')}.
