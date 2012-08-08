@@ -144,6 +144,9 @@ module CBM
                  g.v(212281).out('has').
                    gather{ for(item in it){
                              values.add(item.getId());
+                             if(item.in('belongs_to').hasNext()) {
+                               params.add(item.in('belongs_to').next().getId() );
+                             };
                            };
                   return it }.iterate();
 
@@ -165,6 +168,19 @@ module CBM
                           params_contained = false;
                           next_node = it.inV().next();
                           contained = values.contains(next_node.getId());
+
+                          if(!contained) {
+                            if(next_node.in('belongs_to').hasNext()) {
+                               param = item.in('belongs_to').next().getId(); }
+                            else
+                               { param = next_node.getId(); };
+
+                            params_contained = params.contains(param);
+                            if(!params_contained){
+                              trace[path].add(param);
+                            };
+                          };
+
                           pass = excluded ? !contained : (contained || !params_contained);
 
                           if(!pass){ trace.remove(path); };

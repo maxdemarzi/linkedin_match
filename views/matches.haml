@@ -5,11 +5,11 @@
       %table{:class => "table table-striped"}
         %tr
           %th Job
-          %th Criteria
-          %th Actions
+          %th Missing
+
 
         - @jobs.each do |job|
           %tr
             %td= job[1]
-            %td= job[2]
-            %td= "Actions"
+            %td= ""
+
