@@ -11,7 +11,7 @@
           %input.form-input{ :type => "hidden", :name => "city_id", :id => "city_id"}
           %br
             %input.btn.btn-inverse{ :name => "submit", :type => "submit", :value => "Add"}
-            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+            %input.btn{ :name => "clear", :type => "reset", :value => "Cancel"}
         %form{:action => "/user/#{@user.uid}/location/create", :method => "post"}
           %p Region:
           %input.form-input{ :name => "name", :type => "text", :size => "30",
@@ -20,7 +20,7 @@
           %input.form-input{ :type => "hidden", :name => "region_id", :id => "region_id"}
           %br
             %input.btn.btn-inverse{ :name => "submit", :type => "submit", :value => "Add"}
-            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+            %input.btn{ :name => "clear", :type => "reset", :value => "Cancel"}
         %form{:action => "/user/#{@user.uid}/location/create", :method => "post"}
           %p Country:
           %input.form-input{ :name => "name", :type => "text", :size => "30",
@@ -29,4 +29,4 @@
           %input.form-input{ :type => "hidden", :name => "country_id", :id => "country_id"}
           %br
             %input.btn.btn-inverse{ :name => "submit", :type => "submit", :value => "Add"}
-            %input.btn{ :name => "clear", :type => "submit", :value => "Cancel"}
+            %input.btn{ :name => "clear", :type => "reset", :value => "Cancel"}
