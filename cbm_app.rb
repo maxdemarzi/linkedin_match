@@ -33,6 +33,7 @@ module CBM
     assets {
       serve '/js/app', from: '/assets/coffee'
       serve '/css', from: '/assets/css'
+      serve '/img', from: '/bootstrap/img'
 
       js :lib, '/js/lib.js', [
           '/js/lib/jquery.js',
