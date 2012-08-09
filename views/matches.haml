@@ -10,5 +10,12 @@
         - @jobs.each_with_index do |job, index|
           %tr
             %td= job[1]
-            %td= @matches.to_a[index][1].collect{|skill| @skills[skill]}.compact.join(',')
+            %td
+              - @matches.to_a[index][1].each do |skill|
+                -if @skills[skill]
+                  %a.btn.btn-success{:href => "/skill/#{skill}"}
+                    %i.icon-plus.icon-white
+                    =@skills[skill]
+
+
 
