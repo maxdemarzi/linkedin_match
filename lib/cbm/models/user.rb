@@ -50,6 +50,11 @@ module CBM
       client
     end
 
+    def add_skill(skill_id)
+      skill = CBM::Skill.load(skill_id)
+      $neo_server.create_unique_relationship("has_index", "user_value",  "#{self.uid}-#{skill.name}", "has", self.neo_id, skill.neo_id)
+    end
+
     def set_location(location)
       location.gsub!('Greater','')
       location.gsub!('Area','')

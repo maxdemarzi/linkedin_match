@@ -103,6 +103,13 @@ module CBM
       haml :'skill/index'
     end
 
+    # This is a hack
+    get '/user/:id/skill/:skill_id' do
+      @user = user(params[:id])
+      @user.add_skill(params[:skill_id])
+      redirect to("/user/#{@user.uid}/matches")
+    end
+
     get '/user/:id/locations' do
       @user = user(params[:id])
       haml :'location/index'
@@ -117,7 +124,7 @@ module CBM
       @user = user(params[:id])
       location = (params[:city_id] || params[:region_id] || params[:country_id])
       $neo_server.create_unique_relationship("has_location_index", "user_location", "#{@user.neo_id}-#{location}", "has_location", @user, location)
-      redirect to("/user/#{params[:id]}/locations")
+      redirect to("/user/#{@user.uid}/locations")
     end
 
     # Location

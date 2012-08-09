@@ -13,7 +13,7 @@
             %td
               - @matches.to_a[index][1].each do |skill|
                 -if @skills[skill]
-                  %a.btn.btn-success{:href => "/skill/#{skill}"}
+                  %a.btn.btn-success{:href => "/user/#{@user.uid}/skill/#{skill}"}
                     %i.icon-plus.icon-white
                     =@skills[skill]
 
