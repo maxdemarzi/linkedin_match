@@ -81,7 +81,7 @@ module CBM
     get '/user/:id/matches' do
       private_page!
       @user = user(params[:id])
-      @matches = @user.matching
+      @matches = Hash[@user.matching.sort { |a, b| a[1].size <=> b[1].size }]
       @jobs = CBM::Criteria.get_by_id(@matches.collect{|m| m[0]})
       @skills = Hash[*CBM::Skill.get_by_id(@matches.collect{|m| m[1]}.flatten.uniq).flatten]
       haml :matches

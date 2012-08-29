@@ -5,17 +5,20 @@
       %table{:class => "table table-striped"}
         %tr
           %th Job
+          %th Match
           %th Missing
 
         - @jobs.each_with_index do |job, index|
           %tr
             %td= job[1]
             %td
+              - if @matches.to_a[index][1].size == 1
+                100% Match
+              - else
+                Partial Match
+            %td
               - @matches.to_a[index][1].each do |skill|
                 -if @skills[skill]
                   %a.btn.btn-success{:href => "/user/#{@user.uid}/skill/#{skill}"}
                     %i.icon-plus.icon-white
                     =@skills[skill]
-
-
-
