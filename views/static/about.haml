@@ -4,7 +4,7 @@
       %h2 About CareerBuilder Matching
       %p Searching is great, but Matching is better.
       %p This is a proof of concept site to build a partial pattern matching engine to connect candidates with jobs.
-      %p Built with Ruby and Neo4j.
+
     .span3
       %h2 About Us
       %p Built by:
@@ -15,4 +15,29 @@
       %p
         Business:
         %b Wojciech Krupa
+      %p Built with Ruby and Neo4j.
+  .row
+    .span9
+      %h3 How it works
+      %br
+      %br
+      %br
+      %p 1. Candidates and Jobs speak the same language by connecting to location and skill nodes:
+      %img{:src => '/images/graph1.jpg'}
+      %br
+      %br
+      %br
+      %p 2. Job requirements are turned into paths:
+      %img{:src => '/images/graph2.jpg'}
+      %br
+      %br
+      %br
+      %p 3. Candidates who can reach the job along the path are encouraged to apply:
+      %img{:src => '/images/graph3.jpg'}
+      %br
+      %br
+      %br
+      %p 4. Candidates can miss some requirements and still reach the job:
+      %img{:src => '/images/graph4.jpg'}
+      %p Candidates can add the missing requirements to their profile or apply without them.
 
