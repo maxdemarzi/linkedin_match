@@ -143,36 +143,33 @@ module CBM
       results["data"]
     end
 
-    def matching
+    def matching_old
       gremlin = "matches = [:].withDefault{ key -> [] as Set };
                  values  = [] as Set;
                  params  = [] as Set;
                  trace   = [:].withDefault{ key -> [] as Set };
                  output  = [:].withDefault{ key -> [] as Set };
 
-                 g.v((user)).out('has').
-                   gather{ for(item in it){
-                             values.add(item.getId());
-                             if(item.in('belongs_to').hasNext()) {
-                               params.add(item.in('belongs_to').next().getId() );
-                             };
-                           };
-                  return it }.iterate();
+                 g.v(user).out('has').
+                    sideEffect{
+                              values.add(it.getId());
+                              if(it.in('belongs_to').hasNext()) {
+                                params.add(it.in('belongs_to').next().getId() );
+                              };
+                   }.iterate();
 
-                g.v((user)).out('has_location').as('next').
-                  outE('in_path','in_path_excluded','in_criteria').
-                  sideEffect{ path = it.getProperty('path'); }.
-                  filter{ path == it.getProperty('path')}.
+                  Gremlin.defineStep('inpath',[Edge,Pipe],
+                  {_().filter{ path == it.getProperty('path')}.
                   filter{ next_node = it.inV().next();
-                        is_criteria = next_node.getProperty('type') == 'criteria';
-                        if(is_criteria){
-                        matches[path].add(next_node.getId());
-                        };
-                        !is_criteria;}.
+                          is_criteria = next_node.getProperty('type') == 'criteria';
+                          if(is_criteria){
+                            matches[path].add(next_node.getId());
+                           };
+                          !is_criteria;}.
                   filter{ if(it.label().next() == 'in_path')
-                            {excluded = false;}
+                            { excluded = false;}
                           else
-                            {excluded = true;};
+                            { excluded = true;};
 
                           params_contained = false;
                           next_node = it.inV().next();
@@ -195,12 +192,23 @@ module CBM
                           if(!pass){ trace.remove(path); };
 
                           pass;
-                  }.
-                  inV().
-                  loop('next'){it.getLoops() < 50}.
-                  iterate();
+                          }
+                  });
 
-                  matches;
+
+                  g.v(user).out('has_location').
+                    outE('in_path','in_path_excluded','in_criteria').
+                    sideEffect{ path = it.getProperty('path');}.
+                    inpath.     
+                    inV().
+                    as('next').
+                    outE('in_path','in_path_excluded','in_criteria').
+                    inpath.
+                    inV().
+                    loop('next'){it.getLoops() < 50}.
+                    iterate();
+
+                    matches;
 
                   for(match in matches) {
                     for(criteria in match.getValue()) {
@@ -216,5 +224,113 @@ module CBM
       $neo_server.execute_script(gremlin, {:user => self.neo_id})
     end
 
+    def matching
+      gremlin = "matches = [:].withDefault{ key -> [] as Set };
+                 values  = [] as Set;
+                 params  = [] as Set;
+                 trace   = [:].withDefault{ key -> [] as Set };
+                 output  = [:].withDefault{ key -> [] as Set };
+
+                  g.v(user).out('has').
+                     sideEffect{
+                               values.add(it.getId());
+                               if(it.in('belongs_to').hasNext()) {
+                                 params.add(it.in('belongs_to').next().getId() );
+                               };
+                    }.iterate();
+
+                  g.v(user).out('has_location').
+                    outE('in_path','in_path_excluded','in_criteria').
+                    sideEffect{ path = it.getProperty('path');}.
+                    filter{ path == it.getProperty('path')}.
+                    filter{ next_node = it.inV().next();
+                          is_criteria = next_node.getProperty('type') == 'criteria';
+                          if(is_criteria){
+                          matches[path].add(next_node.getId());
+                          };
+                          !is_criteria;}.
+                    filter{ if(it.label().next() == 'in_path')
+                              {excluded = false;}
+                            else
+                              {excluded = true;};
+
+                            params_contained = false;
+                            next_node = it.inV().next();
+                            contained = values.contains(next_node.getId());
+
+                            if(!contained) {
+                              if(next_node.in('belongs_to').hasNext()) {
+                                 param = item.in('belongs_to').next().getId(); }
+                              else
+                                 { param = next_node.getId(); };
+
+                              params_contained = params.contains(param);
+                              if(!params_contained){
+                                trace[path].add(param);
+                              };
+                            };
+
+                            pass = excluded ? !contained : (contained || !params_contained);
+
+                            if(!pass){ trace.remove(path); };
+
+                            pass;
+                            }.     
+                    inV().
+                    as('next').
+                    outE('in_path','in_path_excluded','in_criteria').
+                    filter{ path == it.getProperty('path')}.
+                    filter{ next_node = it.inV().next();
+                          is_criteria = next_node.getProperty('type') == 'criteria';
+                          if(is_criteria){
+                          matches[path].add(next_node.getId());
+                          };
+                          !is_criteria;}.
+                    filter{ if(it.label().next() == 'in_path')
+                              {excluded = false;}
+                            else
+                              {excluded = true;};
+
+                            params_contained = false;
+                            next_node = it.inV().next();
+                            contained = values.contains(next_node.getId());
+
+                            if(!contained) {
+                              if(next_node.in('belongs_to').hasNext()) {
+                                 param = item.in('belongs_to').next().getId(); }
+                              else
+                                 { param = next_node.getId(); };
+
+                              params_contained = params.contains(param);
+                              if(!params_contained){
+                                trace[path].add(param);
+                              };
+                            };
+
+                            pass = excluded ? !contained : (contained || !params_contained);
+
+                            if(!pass){ trace.remove(path); };
+
+                            pass;
+                            }.
+                    inV().
+                    loop('next'){it.getLoops() < 50}.
+                    iterate();
+
+                    matches;
+
+                  for(match in matches) {
+                    for(criteria in match.getValue()) {
+                      if(output[criteria].size() == 0 || output[criteria].size() < trace[match.getKey()].size() ) {
+                        output[criteria] = trace[match.getKey()]
+                      };
+                    };
+                  };
+
+                  output;
+                "
+
+      $neo_server.execute_script(gremlin, {:user => self.neo_id})
+    end
   end
 end
