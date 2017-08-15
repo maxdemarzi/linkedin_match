@@ -1,7 +1,7 @@
-cb_match
+linkedin_match
 ========
 
-POC for Career Builder Matching.
+POC for Linked In Matching.
 
 
 Pre-Requisites
